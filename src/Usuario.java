@@ -1,14 +1,21 @@
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Usuario {
 	private Empresa empresa;
 	private Double sueldoActual;
 	private Categoria categoria;
 	private int aniosExp;
+	private Set<Empresa> listaHistorialDeEmpresasEnDondeTrabaje=new HashSet<Empresa>();
 	
-	public Usuario(Empresa unaEmpresa,Double sueldoActual,int aniosExp){
-		empresa=unaEmpresa;
+	public Usuario(Empresa unaEmpresa,Double sueldoActual,int aniosExp,Categoria categoria){
+		this.empresa=unaEmpresa;
 		this.sueldoActual=sueldoActual;
 		this.setAniosExp(aniosExp);
+		this.categoria=categoria;
+		this.cargarHistorilDeEmpresasEnLasQueTrabaje(unaEmpresa);
 	}
 	
 	public Empresa getEmpresa() {
@@ -29,25 +36,7 @@ public class Usuario {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-	//Flecha que apunta a la interface Categoria
-	public Double sueldo(Empresa empresa,Usuario usuario){
-		
-		return categoria.sueldoPromedio(empresa, usuario);
-	}
-	//en el caso de que el usuario quiera escuchar una oferta de otra empresa para ver si le es comveniente cambiar de empresa
-	public double sueldoEsperado(Empresa laOtraEmpresa){
-		return categoria.sueldoPromedio(laOtraEmpresa, this);
-	}
 	
-	public void escucharOferta(Double sueldoOfrecido,Empresa laOtraEmpresa){
-		if(sueldoOfrecido>=this.sueldoEsperado(laOtraEmpresa)){
-			this.cambiarTrabajo(sueldoOfrecido,laOtraEmpresa);
-		}
-	}
-	public void cambiarTrabajo(Double nuevoSueldo,Empresa nuevaEmpresa){
-		this.setEmpresa(nuevaEmpresa);
-		this.setSueldoActual(nuevoSueldo);
-	}
 
 	public int getAniosExp() {
 		return aniosExp;
@@ -57,5 +46,49 @@ public class Usuario {
 		this.aniosExp = aniosExp;
 	}
 	
+	//Flecha que apunta a la interface Categoria
+	public Double sueldo(Empresa empresa,Usuario usuario){
+		
+		return categoria.sueldoPromedio(empresa, usuario);
+	}
+	
+	
+	
+	
+	
+	//***************************************************************************
+	//en el caso de que el usuario quiera escuchar una oferta de otra empresa para ver si le es comveniente cambiar de empresa
+	public Double sueldoEsperado(Empresa laOtraEmpresa){
+		return this.categoria.sueldoPromedio(laOtraEmpresa, this);
+	}
+	//*********************************************************************************
+	
+	
+	
+	
+	
+	
+	public void escucharOferta(Double sueldoOfrecido,Empresa laOtraEmpresa){
+		if(sueldoOfrecido>=this.sueldoEsperado(laOtraEmpresa)){
+			this.cambiarTrabajo(sueldoOfrecido,laOtraEmpresa);
+			cargarHistorilDeEmpresasEnLasQueTrabaje(laOtraEmpresa);
+		}
+	}
+	public void cambiarTrabajo(Double nuevoSueldo,Empresa nuevaEmpresa){
+		this.setEmpresa(nuevaEmpresa);
+		this.setSueldoActual(nuevoSueldo);
+		cargarHistorilDeEmpresasEnLasQueTrabaje(nuevaEmpresa);
+	}
+	//cargar las empresas en donde trabaje en una coleccion set
+	public void cargarHistorilDeEmpresasEnLasQueTrabaje(Empresa empresa){
+		listaHistorialDeEmpresasEnDondeTrabaje.add(empresa);
+	}
+	
+	//mostrar la lista del historil de empresas en las trabaje
+	public void mostrarHistorialDeEmpresasEnLasQueTrabaje(){
+		for(Empresa emp : listaHistorialDeEmpresasEnDondeTrabaje){
+			System.out.println("Empresa : "+emp.getNombre());
+		}
+	}
 	
 }

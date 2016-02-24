@@ -19,8 +19,5 @@ public class Gerente implements Categoria{
 		return unaEmpresa.getCantidadEmpleados()/10*unUsuario.getSueldoActual();
 	}
 
-
-	
-	
 	
 }

@@ -1,13 +1,16 @@
 
 public class Empresa {
+	private String nombre;
 	private Double sueldoBase;
 	private int cantidadEmpleados;
 	
-	public Empresa(Double sueldoBase,int cantidadDeEmpleados){
+	public Empresa(String nombre,Double sueldoBase,int cantidadDeEmpleados){
 		this.sueldoBase=sueldoBase;
 		this.cantidadEmpleados=cantidadDeEmpleados;
+		this.nombre=nombre;
 		
 	}
+	
 	
 	public Double getSueldoBase() {
 		return sueldoBase;
@@ -20,6 +23,16 @@ public class Empresa {
 	}
 	public void setCantidadEmpleados(int cantidadEmpleados) {
 		this.cantidadEmpleados = cantidadEmpleados;
+	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 	
